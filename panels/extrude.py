@@ -1,7 +1,7 @@
 import logging
 import re
 import gi
-
+# -*- coding: UTF-8 -*- 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Pango
 from ks_includes.KlippyGcodes import KlippyGcodes
@@ -35,14 +35,15 @@ class Panel(ScreenPanel):
                     self.speeds = vel
         self.distance = int(self.distances[1])
         self.speed = int(self.speeds[1])
+        #modified_here
         self.buttons = {
             'extrude': self._gtk.Button("extrude", _("Extrude"), "color4"),
             'load': self._gtk.Button("arrow-down", _("Load"), "color3"),
             'unload': self._gtk.Button("arrow-up", _("Unload"), "color2"),
             'retract': self._gtk.Button("retract", _("Retract"), "color1"),
-            'temperature': self._gtk.Button("heat-up", _("Temperature"), "color4"),
             'spoolman': self._gtk.Button("spoolman", "Spoolman", "color3"),
             'pressure': self._gtk.Button("settings", _("Pressure Advance"), "color2"),
+            'temperature': self._gtk.Button("filament", _("供料系统"), "color4"),
             'retraction': self._gtk.Button("settings", _("Retraction"), "color1")
         }
         self.buttons['extrude'].connect("clicked", self.check_min_temp, "extrude", "+")
@@ -50,7 +51,7 @@ class Panel(ScreenPanel):
         self.buttons['unload'].connect("clicked", self.check_min_temp, "load_unload", "-")
         self.buttons['retract'].connect("clicked", self.check_min_temp, "extrude", "-")
         self.buttons['temperature'].connect("clicked", self.menu_item_clicked, {
-            "panel": "temperature"
+            "panel": "filament"
         })
         self.buttons['spoolman'].connect("clicked", self.menu_item_clicked, {
             "panel": "spoolman"
@@ -176,6 +177,7 @@ class Panel(ScreenPanel):
         if self._screen.vertical_mode:
             grid.attach(self.buttons['extrude'], 0, 1, 2, 1)
             grid.attach(self.buttons['retract'], 2, 1, 2, 1)
+            
             grid.attach(self.buttons['load'], 0, 2, 2, 1)
             grid.attach(self.buttons['unload'], 2, 2, 2, 1)
             settings_box = Gtk.Box(homogeneous=True)
@@ -187,6 +189,7 @@ class Panel(ScreenPanel):
             grid.attach(speedbox, 0, 5, 4, 1)
             grid.attach(sensors, 0, 6, 4, 1)
         else:
+            
             grid.attach(self.buttons['extrude'], 0, 2, 1, 1)
             grid.attach(self.buttons['load'], 1, 2, 1, 1)
             grid.attach(self.buttons['unload'], 2, 2, 1, 1)

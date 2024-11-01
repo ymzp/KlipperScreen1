@@ -249,7 +249,7 @@ class Panel(ScreenPanel):
             direction = "-" if direction == "+" else "+"
 
         dist = f"{direction}{self.distance}"
-        config_key = "move_speed_z" if axis == "Z" else "move_speed_xy"
+        config_key = "move_speed_z" if axis == "z" else "move_speed_xy"
         speed = (
             None
             if self.ks_printer_cfg is None
